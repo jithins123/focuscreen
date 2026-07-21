@@ -13,7 +13,7 @@ const backgrounds = [
   { src: "/focus-ocean.jpg", name: "Twilight coast" },
 ];
 
-function Icon({ name }: { name: "play" | "pause" | "expand" | "check" | "reset" | "close" | "minimize" | "restore" | "previous" | "next" }) {
+function Icon({ name }: { name: "play" | "pause" | "expand" | "check" | "reset" | "close" | "minimize" | "restore" | "previous" | "next" | "edit" }) {
   const paths = {
     play: <path d="m8 5 11 7-11 7V5Z" />,
     pause: <><path d="M9 5v14M15 5v14" /></>,
@@ -25,6 +25,7 @@ function Icon({ name }: { name: "play" | "pause" | "expand" | "check" | "reset" 
     restore: <path d="M7 7h10v10H7z" />,
     previous: <path d="m15 6-6 6 6 6" />,
     next: <path d="m9 6 6 6-6 6" />,
+    edit: <><path d="M4 20h4l11-11-4-4L4 16v4Z" /><path d="m13.5 6.5 4 4" /></>,
   };
   return <svg viewBox="0 0 24 24" aria-hidden="true">{paths[name]}</svg>;
 }
@@ -111,14 +112,14 @@ export default function Home() {
       </header>
 
       <section className="content" id="top">
-        <p className="eyebrow">CURRENT GOAL</p>
+        <div className="goal-label-row"><p className="eyebrow">CURRENT GOAL</p><button className={editing ? "editing" : ""} onClick={() => setEditing(!editing)} aria-label={editing ? "Finish editing day" : "Edit day"} title={editing ? "Finish editing" : "Edit day"}><Icon name={editing ? "check" : "edit"} /></button></div>
         {editing ? (
           <textarea className="goal-input" value={goal} onChange={(e) => setGoal(e.target.value)} autoFocus aria-label="Current goal" />
         ) : (
           <h1 onClick={() => setEditing(true)} title="Click to edit">{goal}</h1>
         )}
         <div className="rule" />
-        <div className="priorities-head"><p>THREE THINGS THAT MATTER</p><button onClick={() => setEditing(!editing)}>{editing ? "Done" : "Edit day"}</button></div>
+        <div className="priorities-head"><p>THREE THINGS THAT MATTER</p></div>
         <ol className="tasks">
           {tasks.map((task, i) => (
             <li key={i} className={done[i] ? "complete" : ""}>
