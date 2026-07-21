@@ -13,13 +13,18 @@ const backgrounds = [
   { src: "/focus-ocean.jpg", name: "Twilight coast" },
 ];
 
-function Icon({ name }: { name: "play" | "pause" | "expand" | "check" | "reset" }) {
+function Icon({ name }: { name: "play" | "pause" | "expand" | "check" | "reset" | "close" | "minimize" | "restore" | "previous" | "next" }) {
   const paths = {
     play: <path d="m8 5 11 7-11 7V5Z" />,
     pause: <><path d="M9 5v14M15 5v14" /></>,
     expand: <><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5" /></>,
     check: <path d="m5 12 4 4L19 6" />,
     reset: <path d="M4 12a8 8 0 1 0 2.35-5.65L4 8m0-4v4h4" />,
+    close: <path d="M6 6l12 12M18 6 6 18" />,
+    minimize: <path d="M6 12h12" />,
+    restore: <path d="M7 7h10v10H7z" />,
+    previous: <path d="m15 6-6 6 6 6" />,
+    next: <path d="m9 6 6 6-6 6" />,
   };
   return <svg viewBox="0 0 24 24" aria-hidden="true">{paths[name]}</svg>;
 }
@@ -101,7 +106,7 @@ export default function Home() {
     <main className={`focus-shell ${timerMode === "break" && endAt ? "break-mode" : ""}`} style={{ backgroundImage: `url('${backgrounds[backgroundIndex].src}')` }}>
       <div className="veil" />
       <header>
-        <a className="brand" href="#top" aria-label="Stillpoint home"><span /> STILLPOINT</a>
+        <a className="brand" href="#top" aria-label="Focuscreen home"><span /> FOCUSCREEN</a>
         <div className="date-block"><span>{date}</span><strong>{clock}</strong></div>
       </header>
 
@@ -126,7 +131,7 @@ export default function Home() {
 
       {timerOpen && (
         <aside className="timer-card" aria-label="Focus timer settings">
-          <div className="timer-card-head"><span>{timerMode === "focus" ? "FOCUS SESSION" : "REST AND RESET"}</span><button onClick={() => setTimerOpen(false)} aria-label="Close timer settings">Ã—</button></div>
+          <div className="timer-card-head"><span>{timerMode === "focus" ? "FOCUS SESSION" : "REST AND RESET"}</span><button onClick={() => setTimerOpen(false)} aria-label="Close timer settings"><Icon name="close" /></button></div>
           <div className="timer-big">{formatTimer(remaining)}</div>
           <div className="timer-actions">
             <button className="timer-main" onClick={toggleTimer} disabled={remaining === 0}><Icon name={endAt ? "pause" : "play"} /> {endAt ? "Pause" : "Start"}</button>
@@ -147,15 +152,15 @@ export default function Home() {
 
       {playerOpen && (
         <aside className={`youtube-player ${playerMinimized ? "minimized" : ""}`} aria-label="YouTube focus player">
-          <div className="player-head"><span>{playerMinimized ? "YOUTUBE IS PLAYING" : "YOUTUBE PLAYER"}</span><div className="player-actions"><button onClick={() => setPlayerMinimized(!playerMinimized)} aria-label={playerMinimized ? "Restore YouTube player" : "Minimize YouTube player"}>{playerMinimized ? "â–¡" : "âˆ’"}</button><button onClick={() => { setPlayerOpen(false); setPlayerMinimized(false); }} aria-label="Stop and close YouTube player">Ã—</button></div></div>
+          <div className="player-head"><span>{playerMinimized ? "YOUTUBE IS PLAYING" : "YOUTUBE PLAYER"}</span><div className="player-actions"><button onClick={() => setPlayerMinimized(!playerMinimized)} aria-label={playerMinimized ? "Restore YouTube player" : "Minimize YouTube player"}><Icon name={playerMinimized ? "restore" : "minimize"} /></button><button onClick={() => { setPlayerOpen(false); setPlayerMinimized(false); }} aria-label="Stop and close YouTube player"><Icon name="close" /></button></div></div>
           <div className="player-content" aria-hidden={playerMinimized}><iframe src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`} title="YouTube focus music" allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen /><label htmlFor="youtube-url">Use a different YouTube video</label><input id="youtube-url" value={youtubeUrl} onChange={(e) => setYoutubeUrl(e.target.value)} placeholder="Paste a YouTube link" /></div>
         </aside>
       )}
 
       <nav className="background-switcher" aria-label="Choose background image">
-        <button onClick={() => setBackgroundIndex((backgroundIndex - 1 + backgrounds.length) % backgrounds.length)} aria-label="Previous background">â€¹</button>
+        <button onClick={() => setBackgroundIndex((backgroundIndex - 1 + backgrounds.length) % backgrounds.length)} aria-label="Previous background"><Icon name="previous" /></button>
         <div>{backgrounds.map((background, index) => <button key={background.src} className={index === backgroundIndex ? "active" : ""} onClick={() => setBackgroundIndex(index)} aria-label={`Show ${background.name}`} aria-current={index === backgroundIndex ? "true" : undefined} />)}</div>
-        <button onClick={() => setBackgroundIndex((backgroundIndex + 1) % backgrounds.length)} aria-label="Next background">â€º</button>
+        <button onClick={() => setBackgroundIndex((backgroundIndex + 1) % backgrounds.length)} aria-label="Next background"><Icon name="next" /></button>
       </nav>
 
       <footer>
