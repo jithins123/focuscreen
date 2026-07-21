@@ -101,7 +101,10 @@ export default function Home() {
 
   const videoId = youtubeUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|live\/))([^?&/]+)/)?.[1] ?? "jfKfPfyJRdk";
   const date = new Intl.DateTimeFormat("en-AU", { weekday: "long", day: "numeric", month: "long" }).format(time);
-  const clock = new Intl.DateTimeFormat("en-AU", { hour: "2-digit", minute: "2-digit", hour12: false }).format(time);
+  const clockParts = new Intl.DateTimeFormat("en-AU", { hour: "2-digit", minute: "2-digit", hour12: true }).formatToParts(time);
+  const hours = clockParts.find((part) => part.type === "hour")?.value ?? "00";
+  const minutes = clockParts.find((part) => part.type === "minute")?.value ?? "00";
+  const period = clockParts.find((part) => part.type === "dayPeriod")?.value.toUpperCase() ?? "";
   const seconds = String(time.getSeconds()).padStart(2, "0");
 
   return (
@@ -109,7 +112,16 @@ export default function Home() {
       <div className="veil" />
       <header>
         <a className="brand" href="#top" aria-label="Focuscreen home"><span /> FOCUSCREEN</a>
-        <div className="date-block"><span>{date}</span><div className="clock-face"><strong>{clock}</strong><b>{seconds}</b></div></div>
+        <div className="date-block">
+          <div className="flip-clock" aria-label={`${hours}:${minutes}:${seconds} ${period}`}>
+            <div className="flip-unit"><strong>{hours}</strong><i /></div>
+            <b className="flip-colon">:</b>
+            <div className="flip-unit"><strong>{minutes}</strong><i /></div>
+            <span className="flip-period">{period}</span>
+            <span className="flip-seconds">{seconds}</span>
+            <span className="flip-date">{date}</span>
+          </div>
+        </div>
       </header>
 
       <section className="content" id="top">
