@@ -101,11 +101,9 @@ export default function Home() {
 
   const videoId = youtubeUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|live\/))([^?&/]+)/)?.[1] ?? "jfKfPfyJRdk";
   const date = new Intl.DateTimeFormat("en-AU", { weekday: "long", day: "numeric", month: "long" }).format(time);
-  const clockParts = new Intl.DateTimeFormat("en-AU", { hour: "2-digit", minute: "2-digit", hour12: true }).formatToParts(time);
-  const hours = clockParts.find((part) => part.type === "hour")?.value ?? "00";
-  const minutes = clockParts.find((part) => part.type === "minute")?.value ?? "00";
-  const period = clockParts.find((part) => part.type === "dayPeriod")?.value.toUpperCase() ?? "";
-  const seconds = String(time.getSeconds()).padStart(2, "0");
+  const clock = new Intl.DateTimeFormat("en-AU", { hour: "2-digit", minute: "2-digit", hour12: true }).formatToParts(time);
+  const clockTime = clock.filter((part) => part.type === "hour" || part.type === "minute" || part.type === "literal").map((part) => part.value).join("").trim();
+  const period = clock.find((part) => part.type === "dayPeriod")?.value.toUpperCase() ?? "";
 
   return (
     <main className={`focus-shell ${timerMode === "break" && endAt ? "break-mode" : ""}`} style={{ backgroundImage: `url('${backgrounds[backgroundIndex].src}')` }}>
@@ -113,14 +111,8 @@ export default function Home() {
       <header>
         <a className="brand" href="#top" aria-label="Focuscreen home"><span /> FOCUSCREEN</a>
         <div className="date-block">
-          <div className="flip-clock" aria-label={`${hours}:${minutes}:${seconds} ${period}`}>
-            <div className="flip-unit"><strong>{hours}</strong><i /></div>
-            <b className="flip-colon">:</b>
-            <div className="flip-unit"><strong>{minutes}</strong><i /></div>
-            <span className="flip-period">{period}</span>
-            <span className="flip-seconds">{seconds}</span>
-            <span className="flip-date">{date}</span>
-          </div>
+          <span>{date}</span>
+          <div className="clock-face"><strong>{clockTime}</strong><b>{period}</b></div>
         </div>
       </header>
 
@@ -180,7 +172,7 @@ export default function Home() {
       <a className="credit" href="https://repromptingproject.com" target="_blank" rel="noopener noreferrer">Focuscreen by <span>Reprompting Project</span></a>
 
       <footer>
-        <button className={`sound ${playerOpen ? "active" : ""}`} onClick={() => { setPlayerOpen(!playerOpen); setPlayerMinimized(false); }} aria-label={playerOpen ? "Stop YouTube music" : "Play YouTube focus music"}><span className="sound-icon"><Icon name={playerOpen ? "pause" : "play"} /></span><span><small>{playerOpen ? "NOW PLAYING Â· CLICK TO STOP" : "FOCUS MUSIC"}</small><strong>YouTube player</strong></span>{playerOpen && <i className="waves"><b /><b /><b /><b /></i>}</button>
+        <button className={`sound ${playerOpen ? "active" : ""}`} onClick={() => { setPlayerOpen(!playerOpen); setPlayerMinimized(false); }} aria-label={playerOpen ? "Stop YouTube music" : "Play YouTube focus music"}><span className="sound-icon"><Icon name={playerOpen ? "pause" : "play"} /></span><span><small>{playerOpen ? "NOW PLAYING Ãƒâ€šÃ‚Â· CLICK TO STOP" : "FOCUS MUSIC"}</small><strong>YouTube player</strong></span>{playerOpen && <i className="waves"><b /><b /><b /><b /></i>}</button>
         <button className={`timer-pill ${endAt ? "running" : ""}`} onClick={() => setTimerOpen(!timerOpen)} aria-label="Open focus timer"><span>{timerMode.toUpperCase()}</span><strong>{formatTimer(remaining)}</strong><i /></button>
         <button className="expand" onClick={() => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()} aria-label="Toggle full screen"><Icon name="expand" /></button>
       </footer>
