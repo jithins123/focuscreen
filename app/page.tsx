@@ -102,13 +102,14 @@ export default function Home() {
   const videoId = youtubeUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|live\/))([^?&/]+)/)?.[1] ?? "jfKfPfyJRdk";
   const date = new Intl.DateTimeFormat("en-AU", { weekday: "long", day: "numeric", month: "long" }).format(time);
   const clock = new Intl.DateTimeFormat("en-AU", { hour: "2-digit", minute: "2-digit", hour12: false }).format(time);
+  const seconds = String(time.getSeconds()).padStart(2, "0");
 
   return (
     <main className={`focus-shell ${timerMode === "break" && endAt ? "break-mode" : ""}`} style={{ backgroundImage: `url('${backgrounds[backgroundIndex].src}')` }}>
       <div className="veil" />
       <header>
         <a className="brand" href="#top" aria-label="Focuscreen home"><span /> FOCUSCREEN</a>
-        <div className="date-block"><span>{date}</span><strong>{clock}</strong></div>
+        <div className="date-block"><span>{date}</span><div className="clock-face"><strong>{clock}</strong><b>{seconds}</b></div></div>
       </header>
 
       <section className="content" id="top">
