@@ -7,6 +7,12 @@ const defaults = {
   tasks: ["Begin with the hardest thing", "Protect one deep-work block", "End the day with a clear mind"],
 };
 
+const backgrounds = [
+  { src: "/focus-mountains-hq.jpg", name: "Alpine lake" },
+  { src: "/focus-forest.jpg", name: "Dawn forest" },
+  { src: "/focus-ocean.jpg", name: "Twilight coast" },
+];
+
 function Icon({ name }: { name: "play" | "pause" | "expand" | "check" | "reset" }) {
   const paths = {
     play: <path d="m8 5 11 7-11 7V5Z" />,
@@ -27,6 +33,7 @@ export default function Home() {
   const [playerOpen, setPlayerOpen] = useState(false);
   const [playerMinimized, setPlayerMinimized] = useState(false);
   const [youtubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/watch?v=jfKfPfyJRdk");
+  const [backgroundIndex, setBackgroundIndex] = useState(0);
   const [timerOpen, setTimerOpen] = useState(false);
   const [timerMode, setTimerMode] = useState<"focus" | "break">("focus");
   const [duration, setDuration] = useState(45);
@@ -36,6 +43,8 @@ export default function Home() {
 
   useEffect(() => {
     const saved = localStorage.getItem("stillpoint-day");
+    const savedBackground = Number(localStorage.getItem("stillpoint-background"));
+    if (Number.isInteger(savedBackground) && savedBackground >= 0 && savedBackground < backgrounds.length) setBackgroundIndex(savedBackground);
     if (saved) {
       try {
         const data = JSON.parse(saved);
@@ -52,6 +61,8 @@ export default function Home() {
   useEffect(() => {
     localStorage.setItem("stillpoint-day", JSON.stringify({ goal, tasks, done, youtubeUrl }));
   }, [goal, tasks, done, youtubeUrl]);
+
+  useEffect(() => localStorage.setItem("stillpoint-background", String(backgroundIndex)), [backgroundIndex]);
 
   useEffect(() => {
     if (!endAt) return;
@@ -87,7 +98,7 @@ export default function Home() {
   const clock = new Intl.DateTimeFormat("en-AU", { hour: "2-digit", minute: "2-digit", hour12: false }).format(time);
 
   return (
-    <main className={`focus-shell ${timerMode === "break" && endAt ? "break-mode" : ""}`}>
+    <main className={`focus-shell ${timerMode === "break" && endAt ? "break-mode" : ""}`} style={{ backgroundImage: `url('${backgrounds[backgroundIndex].src}')` }}>
       <div className="veil" />
       <header>
         <a className="brand" href="#top" aria-label="Stillpoint home"><span /> STILLPOINT</a>
@@ -140,6 +151,12 @@ export default function Home() {
           <div className="player-content" aria-hidden={playerMinimized}><iframe src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`} title="YouTube focus music" allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen /><label htmlFor="youtube-url">Use a different YouTube video</label><input id="youtube-url" value={youtubeUrl} onChange={(e) => setYoutubeUrl(e.target.value)} placeholder="Paste a YouTube link" /></div>
         </aside>
       )}
+
+      <nav className="background-switcher" aria-label="Choose background image">
+        <button onClick={() => setBackgroundIndex((backgroundIndex - 1 + backgrounds.length) % backgrounds.length)} aria-label="Previous background">â€¹</button>
+        <div>{backgrounds.map((background, index) => <button key={background.src} className={index === backgroundIndex ? "active" : ""} onClick={() => setBackgroundIndex(index)} aria-label={`Show ${background.name}`} aria-current={index === backgroundIndex ? "true" : undefined} />)}</div>
+        <button onClick={() => setBackgroundIndex((backgroundIndex + 1) % backgrounds.length)} aria-label="Next background">â€º</button>
+      </nav>
 
       <footer>
         <button className={`sound ${playerOpen ? "active" : ""}`} onClick={() => { setPlayerOpen(!playerOpen); setPlayerMinimized(false); }} aria-label={playerOpen ? "Stop YouTube music" : "Play YouTube focus music"}><span className="sound-icon"><Icon name={playerOpen ? "pause" : "play"} /></span><span><small>{playerOpen ? "NOW PLAYING Â· CLICK TO STOP" : "FOCUS MUSIC"}</small><strong>YouTube player</strong></span>{playerOpen && <i className="waves"><b /><b /><b /><b /></i>}</button>
