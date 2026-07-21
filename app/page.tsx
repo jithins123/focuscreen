@@ -170,7 +170,9 @@ export default function Home() {
         <aside className={`youtube-player ${playerMinimized ? "minimized" : ""}`} aria-label="YouTube focus player">
           <div className="player-head"><span>{playerMinimized ? "YOUTUBE IS PLAYING" : "YOUTUBE PLAYER"}</span><div className="player-actions"><button onClick={() => setPlayerMinimized(!playerMinimized)} aria-label={playerMinimized ? "Restore YouTube player" : "Minimize YouTube player"}><Icon name={playerMinimized ? "restore" : "minimize"} /></button><button onClick={() => { setPlayerOpen(false); setPlayerMinimized(false); }} aria-label="Stop and close YouTube player"><Icon name="close" /></button></div></div>
           <div className="player-content" aria-hidden={playerMinimized}><iframe src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`} title="YouTube focus music" allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen /><label htmlFor="youtube-url">Use a different YouTube video</label><input id="youtube-url" value={youtubeUrl} onChange={(e) => setYoutubeUrl(e.target.value)} placeholder="Paste a YouTube link" /></div>
+          {!playerMinimized && (
           <div className="youtube-suggestions"><span>START WITH A SOUND</span><div>{youtubeSuggestions.map((suggestion) => <button key={suggestion.url} className={youtubeUrl === suggestion.url ? "selected" : ""} onClick={() => setYoutubeUrl(suggestion.url)}>{suggestion.label}</button>)}</div></div>
+          )}
         </aside>
       )}
 
