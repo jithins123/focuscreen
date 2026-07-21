@@ -171,14 +171,14 @@ export default function Home() {
         <aside className="todo-panel" aria-label="To-do list">
           <div className="todo-head"><span>TO DO</span><button onClick={() => setTodoOpen(false)} aria-label="Close to-do list"><Icon name="close" /></button></div>
           <form onSubmit={(e) => { e.preventDefault(); const text = newTodo.trim(); if (text) { setTodos([...todos, { text, done: false }]); setNewTodo(""); } }}>
-            <input value={newTodo} onChange={(e) => setNewTodo(e.target.value)} placeholder="Add a taskÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" maxLength={80} aria-label="New to-do" />
+            <input value={newTodo} onChange={(e) => setNewTodo(e.target.value)} placeholder="Add a task" maxLength={80} aria-label="New to-do" />
             <button type="submit" aria-label="Add to-do">+</button>
           </form>
           <ul>{todos.map((todo, index) => (
             <li key={`${todo.text}-${index}`} className={todo.done ? "done" : ""}>
               <button className="todo-check" onClick={() => setTodos(todos.map((item, i) => i === index ? { ...item, done: !item.done } : item))} aria-label={`Mark ${todo.text} ${todo.done ? "not done" : "done"}`}>{todo.done && <Icon name="check" />}</button>
               <span>{todo.text}</span>
-              <button className="todo-remove" onClick={() => setTodos(todos.filter((_, i) => i !== index))} aria-label={`Remove ${todo.text}`}>ÃƒÆ’Ã¢â‚¬â€</button>
+              <button className="todo-remove" onClick={() => setTodos(todos.filter((_, i) => i !== index))} aria-label={`Remove ${todo.text}`}><Icon name="close" /></button>
             </li>
           ))}</ul>
           {todos.length === 0 && <p>Nothing here yet.</p>}
@@ -197,7 +197,7 @@ export default function Home() {
       <a className="credit" href="https://repromptingproject.com" target="_blank" rel="noopener noreferrer">Focuscreen by <span>Reprompting Project</span></a>
 
       <footer>
-        <button className={`sound ${playerOpen ? "active" : ""}`} onClick={() => { setPlayerOpen(!playerOpen); setPlayerMinimized(false); }} aria-label={playerOpen ? "Stop YouTube music" : "Play YouTube focus music"}><span className="sound-icon"><Icon name={playerOpen ? "pause" : "play"} /></span><span><small>{playerOpen ? "NOW PLAYING Â· CLICK TO STOP" : "FOCUS MUSIC"}</small><strong>YouTube player</strong></span>{playerOpen && <i className="waves"><b /><b /><b /><b /></i>}</button>
+        <button className={`sound ${playerOpen ? "active" : ""}`} onClick={() => { setPlayerOpen(!playerOpen); setPlayerMinimized(false); }} aria-label={playerOpen ? "Stop YouTube music" : "Play YouTube focus music"}><span className="sound-icon"><Icon name={playerOpen ? "pause" : "play"} /></span><span><small>{playerOpen ? "NOW PLAYING · CLICK TO STOP" : "FOCUS MUSIC"}</small><strong>YouTube player</strong></span>{playerOpen && <i className="waves"><b /><b /><b /><b /></i>}</button>
         <button className={`timer-pill ${endAt ? "running" : ""}`} onClick={() => setTimerOpen(!timerOpen)} aria-label="Open focus timer"><span>{timerMode.toUpperCase()}</span><strong>{formatTimer(remaining)}</strong><i /></button>
         <button className="expand" onClick={() => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()} aria-label="Toggle full screen"><Icon name="expand" /></button>
       </footer>
