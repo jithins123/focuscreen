@@ -6,7 +6,7 @@ html, body { margin: 0; min-height: 100%; background: #071525; }
 body { font-family: "Segoe UI", Inter, Arial, sans-serif; color: #f7f4ed; }
 button, input, textarea { font: inherit; }
 button { color: inherit; }
-.focus-shell { min-height: 100svh; position: relative; overflow: hidden; display: grid; grid-template-rows: auto 1fr auto; background: #071525 url('/focus-mountains.png') center/cover no-repeat; isolation: isolate; }
+.focus-shell { min-height: 100svh; position: relative; overflow: hidden; display: grid; grid-template-rows: auto 1fr auto; background: #071525 url('/focus-mountains.jpg') center/cover no-repeat; isolation: isolate; }
 .veil { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(1,12,25,.74) 0%, rgba(1,12,25,.42) 48%, rgba(1,12,25,.16) 100%), linear-gradient(0deg, rgba(1,9,19,.55), transparent 48%); }
 header { display: flex; justify-content: space-between; align-items: flex-start; padding: 38px 52px; }
 .brand { color: white; text-decoration: none; font-size: 12px; font-weight: 650; letter-spacing: .27em; display: flex; align-items: center; gap: 12px; }
