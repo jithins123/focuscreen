@@ -59,7 +59,25 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en-AU">
       <body>
-        <ClerkProvider>
+        <ClerkProvider
+          appearance={{
+            variables: {
+              colorPrimary: "#d9b482",
+              colorPrimaryForeground: "#071525",
+              colorBackground: "#091a2a",
+              colorForeground: "#f7f4ed",
+              colorMuted: "#10283a",
+              colorMutedForeground: "#aeb8c2",
+              colorInput: "#10283a",
+              colorInputForeground: "#f7f4ed",
+              colorBorder: "rgba(255,255,255,0.16)",
+              colorRing: "#d9b482",
+              colorShadow: "#020912",
+              borderRadius: "0.85rem",
+              fontFamily: '"Segoe UI", Inter, Arial, sans-serif',
+            },
+          }}
+        >
           {children}
         </ClerkProvider>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
