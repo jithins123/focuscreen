@@ -15,9 +15,10 @@ const backgrounds = [
 ];
 
 const youtubeSuggestions = [
-  { label: "Piano focus", url: "https://youtu.be/Ui7Hb4cvamY?list=RDUi7Hb4cvamY" },
-  { label: "Lofi radio", url: "https://youtu.be/jfKfPfyJRdk" },
-  { label: "Synthwave radio", url: "https://youtu.be/4xDzrJKXOOY" },
+  { label: "Piano focus", url: "https://youtu.be/sAcj8me7wGI?list=RDsAcj8me7wGI" },
+  { label: "Lofi radio", url: "https://youtu.be/X4VbdwhkE10" },
+  { label: "Synthwave radio", url: "https://youtu.be/RrkrdYm3HPQ" },
+  { label: "Brown noise", url: "https://youtu.be/GSiqI-uwaN0" },
 ];
 
 function Icon({ name }: { name: "play" | "pause" | "expand" | "check" | "reset" | "close" | "minimize" | "restore" | "previous" | "next" | "edit" }) {
