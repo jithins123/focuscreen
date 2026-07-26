@@ -14,11 +14,13 @@ const backgrounds = [
   { src: "/focus-ocean.jpg", name: "Twilight coast" },
 ];
 
+const defaultYoutubeUrl = "https://youtu.be/cxk_sX0lM1o";
+
 const youtubeSuggestions = [
+  { label: "Brown noise", url: defaultYoutubeUrl },
   { label: "Piano focus", url: "https://youtu.be/sAcj8me7wGI?list=RDsAcj8me7wGI" },
   { label: "Lofi radio", url: "https://youtu.be/X4VbdwhkE10" },
   { label: "Synthwave radio", url: "https://youtu.be/RrkrdYm3HPQ" },
-  { label: "Brown noise", url: "https://youtu.be/GSiqI-uwaN0" },
 ];
 
 function Icon({ name }: { name: "play" | "pause" | "expand" | "check" | "reset" | "close" | "minimize" | "restore" | "previous" | "next" | "edit" }) {
@@ -46,7 +48,7 @@ export default function Home() {
   const [editing, setEditing] = useState(false);
   const [playerOpen, setPlayerOpen] = useState(false);
   const [playerMinimized, setPlayerMinimized] = useState(false);
-  const [youtubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/watch?v=jfKfPfyJRdk");
+  const [youtubeUrl, setYoutubeUrl] = useState(defaultYoutubeUrl);
   const [backgroundIndex, setBackgroundIndex] = useState(0);
   const [timerOpen, setTimerOpen] = useState(false);
   const [timerMode, setTimerMode] = useState<"focus" | "break">("focus");
@@ -68,7 +70,7 @@ export default function Home() {
         setGoal(data.goal ?? defaults.goal);
         setTasks(data.tasks ?? defaults.tasks);
         setDone(data.done ?? [false, false, false]);
-        setYoutubeUrl(data.youtubeUrl ?? "https://www.youtube.com/watch?v=jfKfPfyJRdk");
+        setYoutubeUrl(data.youtubeUrl ?? defaultYoutubeUrl);
         setTodos(data.todos ?? []);
       } catch { /* keep defaults */ }
     }
@@ -111,7 +113,7 @@ export default function Home() {
   const startBreak = () => { selectDuration(10, "break"); setEndAt(Date.now() + 10 * 60 * 1000); };
   const formatTimer = (seconds: number) => `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
 
-  const videoId = youtubeUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|live\/))([^?&/]+)/)?.[1] ?? "jfKfPfyJRdk";
+  const videoId = youtubeUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|live\/))([^?&/]+)/)?.[1] ?? "cxk_sX0lM1o";
   const date = new Intl.DateTimeFormat("en-AU", { weekday: "long", day: "numeric", month: "long" }).format(time);
   const clock = new Intl.DateTimeFormat("en-AU", { hour: "2-digit", minute: "2-digit", hour12: true }).formatToParts(time);
   const clockTime = clock.filter((part) => part.type === "hour" || part.type === "minute" || part.type === "literal").map((part) => part.value).join("").trim();
